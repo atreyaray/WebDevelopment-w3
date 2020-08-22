@@ -1,8 +1,13 @@
-POST  http://localhost:3001/api/persons
+# POST  http://localhost:3001/api/persons
+# Content-Type: application/json
+
+# {
+#     "name": "a",
+#     "number":"911",
+#     "id":7
+# }
+
+POST http://localhost:3001/api/persons
 Content-Type: application/json
 
-{
-    "name": "A",
-    "number":"911",
-    "id":7
-}
+{"name":"a","number":"100","id":290}

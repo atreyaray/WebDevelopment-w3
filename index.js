@@ -18,21 +18,33 @@ let persons = [
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 5 }
 ]
+app.post('/api/persons', (req,res,next) =>{
+    console.log('basic req')
+    const {name,number} = req.body
+    const id = Math.floor(Math.random()*1000)
+    console.log(name,number, id)
+    persons.concat({name,number,id})
+    const person = new Person({name,number,id})
+    console.log(person,)
+    person.save().then(result =>{
+        res.json(result)
+    }).catch(error => {
+        next(error)
+    })
+})
 
 //add a contact
 app.post('/api/persons', (req, res, next) => {
     const body = req.body
     const id = Math.floor(Math.random() * 1000)
-    const alreadyExists = persons.find(p => p.name === body.name)
-
+    // const alreadyExists = persons.find(p => p.name === body.name)
+    console.log('reaches back end')
+    console.log(body.name,body.number)
     if (!body.name || !body.number) {
         res.status(400).json({
             error: "content is missing"
         })
     }
-    // else if (alreadyExists) {
-    //     res.status(400).json({error: "name must be unique"})
-    // }
     else {
         persons = persons.concat({ name: body.name, number: body.number, id: id })
         const person = new Person({
@@ -118,7 +130,7 @@ const errorHandler = (error, request, response, next) => {
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
-        return response.status(400).json({ error: error.message })
+        return response.status(400).json({ error: error.message})
     }
     next(error)
 }
