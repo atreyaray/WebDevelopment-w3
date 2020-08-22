@@ -1,2 +1,3 @@
-# GET http://localhost:3001/api/info
-GET https://obscure-fjord-88485.herokuapp.com/api/info
+GET http://localhost:3001/api/info
+# GET https://obscure-fjord-88485.herokuapp.com/api/info
+# GET http://localhost:3001/api/persons

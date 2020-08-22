@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 const url = process.env.MONGODB_URI
 console.log('connecting to', url)
-
+mongoose.set('useCreateIndex', true)
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(result => {
         console.log('connected to MongoDB')
@@ -11,15 +12,14 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
-    id: Number
+    name: { type: String, required: true, unique: true, minlength: 3},
+    number: {type: String, minlength: 8},
+    id: {type: Number}
 })
-
+personSchema.plugin(uniqueValidator);
 personSchema.set('toJSON', {
     transform: (document, returnedObject) => {
-        console.log('hello',)
-        returnedObject._id = returnedObject._id.toString()
+        returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
         delete returnedObject.__v
     }
