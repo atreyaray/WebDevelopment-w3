@@ -18,15 +18,15 @@ let persons = [
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 5 }
 ]
-app.post('/api/persons', (req,res,next) =>{
+app.post('/api/persons', (req,res,next) => {
     console.log('basic req')
-    const {name,number} = req.body
+    const { name,number } = req.body
     const id = Math.floor(Math.random()*1000)
     console.log(name,number, id)
-    persons.concat({name,number,id})
-    const person = new Person({name,number,id})
+    persons.concat({ name,number,id })
+    const person = new Person({ name,number,id })
     console.log(person,)
-    person.save().then(result =>{
+    person.save().then(result => {
         res.json(result)
     }).catch(error => {
         next(error)
@@ -42,7 +42,7 @@ app.post('/api/persons', (req, res, next) => {
     console.log(body.name,body.number)
     if (!body.name || !body.number) {
         res.status(400).json({
-            error: "content is missing"
+            error: 'content is missing'
         })
     }
     else {
@@ -70,7 +70,7 @@ app.put('/api/persons/:id', (request,response,next) => {
         number : body.number
     }
     console.log(person.name,person.number)
-    Person.findByIdAndUpdate(request.params.id,person, {new:true})
+    Person.findByIdAndUpdate(request.params.id,person, { new:true })
         .then(result => {
             response.json(result)
         })
@@ -80,10 +80,10 @@ app.put('/api/persons/:id', (request,response,next) => {
 
 //show all the contacts
 app.get('/api/persons', (request,response) => {
-    Person.find({}).then(person =>{
+    Person.find({}).then(person => {
         console.log('person',person)
         response.json(person)
-    }).catch(error =>console.log('error :',error))
+    }).catch(error => console.log('error :',error))
 })
 
 //show no of contacts and datetime
@@ -105,8 +105,7 @@ app.get('/api/persons/:id', (req,res,next) => {
         }else{
             res.status(404).end()
         }
-    })
-    .catch(error => {
+    }).catch(error => {
         console.log('its an error',)
         next(error)
     })
@@ -130,11 +129,11 @@ const errorHandler = (error, request, response, next) => {
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
-        return response.status(400).json({ error: error.message})
+        return response.status(400).json({ error: error.message })
     }
     next(error)
 }
 app.use(errorHandler)
 
-const PORT = process.env.PORT 
-app.listen(PORT,()=>{console.log('Server running on port',PORT)})
+const PORT = process.env.PORT
+app.listen(PORT,() => { console.log('Server running on port',PORT)})

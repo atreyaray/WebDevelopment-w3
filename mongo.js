@@ -7,15 +7,14 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2]
-const url = 
-    `mongodb+srv://fullstack:${password}@phonebook.jzrvi.mongodb.net/<dbname>?retryWrites=true&w=majority`
+const url = `mongodb+srv://fullstack:${password}@phonebook.jzrvi.mongodb.net/<dbname>?retryWrites=true&w=majority`
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const personSchema = new mongoose.Schema({
     name: String,
-    number: String, 
-    id: Number 
+    number: String,
+    id: Number
 })
 personSchema.plugin(uniqueValidator)
 const Person = mongoose.model('Person',personSchema)
